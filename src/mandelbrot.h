@@ -85,6 +85,8 @@ private:
         mMinPointWorld;  // the minimum (x, y) world-space coords we can see (bottom-left).
     sf::Vector2<double>
         mMaxPointWorld;  // the maximum (x, y) world-space coords we can see (top-right).
+
+    bool update = true;
 };
 
 #endif

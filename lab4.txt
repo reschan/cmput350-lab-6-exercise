@@ -1,1 +1,4 @@
 Answer written questions here:
+1. to increase responsiveness by rendering lower and slowly going up.
+2. Multiprocessing would definitely help the rendering time, but otherwise, only render when necessary.
+3. Less pixel will need to be rendered, increasing performance. visual resolution will be degraded but hard to notice.
