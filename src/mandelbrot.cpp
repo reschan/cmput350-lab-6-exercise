@@ -248,7 +248,6 @@ void MandelbrotViewer::updateUIText(sf::Vector2i mouseWindowCoords) {
 double MandelbrotViewer::mandelbrot(double cX, double cY, int maxIters) const {
     // TODO: return the number of iterations it takes for z to escape a radius of 2,
     //       if it happens within maxIters iterations, otherwise return infinity.
-    int i = 0;
     double zX = cX;
     double zY = cY;
     for (int i = 1; i < maxIters; ++i) {
@@ -272,11 +271,9 @@ double MandelbrotViewer::mandelbrotSmooth(double cX, double cY, int maxIters) co
     //       If you use an escape radius of exactly 2, you will see some artifacts. Use a
     //       higher radius (this is still correct, since divergence -> infty), but with more
     //       computational cost (since you need to simulate more steps).
-    int i = 0;
-    int iter = 0;
     double zX = cX;
     double zY = cY;
-    for (int i = 0; i < maxIters; ++i) {
+    for (int i = 1; i < maxIters; ++i) {
         double zX2 = zX * zX;
         double zY2 = zY * zY;
 
@@ -332,7 +329,7 @@ void MandelbrotViewer::drawIntoViewBuffer(int maxIters) {
 
     for (unsigned int i = 0; i < mWindowSize.y; i++) {
         for (unsigned int j = 0; j < mWindowSize.x; j++) {
-            double escape = mandelbrotSmooth(mMinPointWorld.x + worldPxSizeX * (double)j + (worldPxSizeX / 2),
+            double escape = mandelbrot(mMinPointWorld.x + worldPxSizeX * (double)j + (worldPxSizeX / 2),
                                     mMinPointWorld.y + worldPxSizeY * (double)i + (worldPxSizeY / 2), maxIters);
             if (escape == std::numeric_limits<double>::infinity()) {
                 mViewBuffer.setPixel({j, i}, sf::Color::Black);
