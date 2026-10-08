@@ -249,10 +249,9 @@ double MandelbrotViewer::mandelbrot(double cX, double cY, int maxIters) const {
     // TODO: return the number of iterations it takes for z to escape a radius of 2,
     //       if it happens within maxIters iterations, otherwise return infinity.
     int i = 0;
-    int iter = 0;
     double zX = cX;
     double zY = cY;
-    for (int i = 0; i < maxIters; ++i) {
+    for (int i = 1; i < maxIters; ++i) {
         double zX2 = zX * zX;
         double zY2 = zY * zY;
         
