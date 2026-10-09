@@ -153,9 +153,6 @@ void MandelbrotViewer::handleZoom(double scrollDistance, sf::Vector2i mousePosit
     // In particular, the new world-coordinates rectangle will be of size
     // (worldViewFactor * (orig world width), worldViewFactor * (orig world height)),
     // and the user's cursor will point to exactly the same thing before and after the zoom.
-
-    std::cout << worldViewFactor << "\n";
-
     sf::Vector2<double> boundSize = (mMaxPointWorld - mMinPointWorld) * worldViewFactor;
     sf::Vector2<double> deltaSize = boundSize - (mMaxPointWorld - mMinPointWorld);
 
@@ -199,8 +196,6 @@ void MandelbrotViewer::handleWindowResize(sf::Vector2u newSize)  // newSize is i
 
     sf::Vector2<double> vpWindowSize =
         (sf::Vector2<double>)newSize / (sf::Vector2<double>)mWindowSize;
-
-    std::cout << vpWindowSize.x << ", " << vpWindowSize.y << '\n';
 
     sf::Vector2<double> deltaWorldSizeChange = worldSize * vpWindowSize - worldSize;
 
@@ -278,7 +273,7 @@ double MandelbrotViewer::mandelbrotSmooth(double cX, double cY, int maxIters) co
         double zY2 = zY * zY;
 
         if (zX2 + zY2 > 8) {
-            return i + 1 - (std::log(std::log(std::max(zX2, zY2)))/LOG_2);
+            return i + 1 - (std::log(std::log(std::sqrt(zX2 + zY2)))/LOG_2);
         }
 
         zY = 2.0 * zX * zY + cY;
@@ -329,7 +324,7 @@ void MandelbrotViewer::drawIntoViewBuffer(int maxIters) {
 
     for (unsigned int i = 0; i < mWindowSize.y; i++) {
         for (unsigned int j = 0; j < mWindowSize.x; j++) {
-            double escape = mandelbrot(mMinPointWorld.x + worldPxSizeX * (double)j + (worldPxSizeX / 2),
+            double escape = mandelbrotSmooth(mMinPointWorld.x + worldPxSizeX * (double)j + (worldPxSizeX / 2),
                                     mMinPointWorld.y + worldPxSizeY * (double)i + (worldPxSizeY / 2), maxIters);
             if (escape == std::numeric_limits<double>::infinity()) {
                 mViewBuffer.setPixel({j, i}, sf::Color::Black);
